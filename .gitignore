@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+
+data/*.csv
+data/*.parquet
+!data/resumo_publico.json
+data/dd-eventosvitais-nascimentos.pdf
