@@ -521,7 +521,9 @@ def renderizar_descritiva(dados: dict[str, Any], chave: str) -> None:
     _figura_qq(qq["pontos"], qq["inclinacao"], qq["intercepto"], f"{chave}_qq")
     st.caption(
         "O Q-Q plot mostra quantis agrupados para preservar a privacidade. "
-        "Pontos próximos à reta indicam compatibilidade aproximada com normalidade."
+        "No peso, há afastamento da reta na cauda inferior, indicando desvio da "
+        "normalidade nessa região. É uma característica da distribuição, não uma "
+        "evidência isolada de erro nem motivo suficiente para excluir observações."
     )
     _mostrar_qualitativas(dados, chave)
     _mostrar_cruzamentos(dados, chave)

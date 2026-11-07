@@ -4,7 +4,7 @@ Nov 4, 2026 · @Renato
 
 ## 1. Visão geral e cronograma
 
-O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) como população. Dela sai uma amostra aleatória simples de 384 nascimentos, que serve para estimar e testar 2 proporções e 2 médias. A entrega são 3 painéis em Python + Streamlit, publicados no Streamlit Community Cloud, e um vídeo de até 4 minutos no YouTube. **Prazo: domingo, 15/11, 23:59.** O cronograma deixa 2 dias de folga.
+O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) como população. Dela sai uma amostra aleatória simples de 384 nascimentos, que serve para estimar e testar 2 proporções e 2 médias. A entrega são 3 painéis em Python + Streamlit, publicados no Streamlit Community Cloud, um vídeo de até 4 minutos no YouTube e um relatório acadêmico complementar em LaTeX/PDF. **Prazo: domingo, 15/11, 23:59.** O cronograma deixa 2 dias de folga.
 
 **Etapa 1 — Dados e amostra (até sáb 07/11)**
 
@@ -18,6 +18,7 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 - [x] Painel 1 (população) completo
 - [x] Painel 2 (amostra) reaproveitando as mesmas funções, com a coluna de comparação
 - [x] Revisar escolha dos gráficos, legibilidade dos rótulos e cores com base em Wilke (2019)
+- [x] Investigar a interpretação de registros com peso abaixo de 500 g e definir a ressalva metodológica sem refazer as análises
 
 **Etapa 3 — Painel 3, a inferência (até qua 11/11)**
 
@@ -30,10 +31,13 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 - [x] Preparar `data/resumo_publico.json` localmente com estatísticas agregadas, sem linhas individuais
 - [x] Adaptar os três painéis para consumir somente os resumos agregados e retirar o download individual da amostra
 - [x] Ignorar CSVs e Parquets com registros individuais no Git
-- [ ] Repositório público no GitHub + deploy no Streamlit Community Cloud
-- [ ] Abrir os 3 links numa janela anônima para confirmar o acesso sem login
+- [x] Criar o repositório público no GitHub e publicar o código e o resumo agregado, sem microdados individuais
+- [x] Publicar a aplicação no Streamlit Community Cloud
+- [ ] Abrir o app numa janela anônima e verificar os três painéis sem login
 
 **Privacidade na publicação:** `data/sinasc_nascimentos.csv`, `data/populacao.parquet` e `data/amostra.csv` permanecem locais e são ignorados pelo Git. O deploy deve incluir apenas `data/resumo_publico.json`, que contém estatísticas e distribuições agrupadas; grupos com menos de 10 registros são reunidos ou omitidos.
+
+**Ressalva sobre o corte de peso:** mantemos a população analítica e os resultados já calculados (N = 197.639; amostra n = 384), sem refazer as análises. O corte de 500 g é tratado como uma decisão operacional deste estudo, não como prova de que todo registro abaixo desse valor seja erro ou biologicamente impossível. A literatura e as orientações citadas indicam que um nascimento pode ser registrado como nascido vivo quando há sinais de vida, independentemente do peso; portanto, parte dos registros abaixo de 500 g pode ser legítima. O relatório deve dizer que as conclusões se aplicam ao recorte analisado após o corte e reconhecer que a exclusão pode deixar de fora nascidos vivos de peso extremamente baixo. Foram removidos 162 registros, dos quais 20 têm peso zero e 142 têm peso positivo.
 
 **Etapa 5 — Vídeo (sex 13/11 a sáb 14/11)**
 
@@ -43,6 +47,9 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 **Etapa 6 — Entrega (dom 15/11, até 18h)**
 
 - [ ] Publicar no Moodle um texto curto apresentando o objetivo, a base, o método e os principais resultados
+- [ ] Preparar um relatório acadêmico complementar em LaTeX e compilar o PDF, seguindo como referência de estrutura/apresentação o trabalho AGI-ARC-1 da disciplina anterior
+- [ ] Incluir no relatório a justificativa do recorte de peso ≥ 500 g, a ressalva de que registros abaixo desse valor podem corresponder a nascidos vivos, e a limitação decorrente; não substituir o texto curto exigido no Moodle
+- [ ] Registrar no relatório e no texto do Moodle que o Q-Q plot do peso mostra afastamento da normalidade na cauda inferior; interpretar isso como característica/discrepância da distribuição que merece contextualização, não como motivo isolado para excluir ou ajustar registros
 - [ ] Incluir no texto os links do app Streamlit (três painéis), do vídeo no YouTube como "Não listado" e da base original, com a identificação da fonte
 - [ ] Conferir que o app e o vídeo abrem pelos links compartilhados e que o vídeo está como "Não listado"
 
@@ -52,7 +59,7 @@ A base é o SINASC (Sistema de Informações sobre Nascidos Vivos) de Porto Aleg
 
 - **Contexto e objetivo:** cada nascimento vivo no município gera uma Declaração de Nascido Vivo, digitada no SINASC. A base apoia a vigilância epidemiológica e o planejamento da saúde materno-infantil.
 - **Tamanho:** 197.801 registros e 22 variáveis, de jan/2011 a dez/2021 (entre 14.147 e 19.720 nascimentos por ano).
-- **População de interesse:** nascidos vivos em Porto Alegre registrados no SINASC entre 2011 e 2021, com peso válido (N = 197.639 depois da limpeza).
+- **População analítica deste estudo:** registros de nascidos vivos em Porto Alegre no SINASC entre 2011 e 2021, após o recorte operacional de peso ≥ 500 g (N = 197.639).
 - **Unidade amostral:** o nascimento, ou seja, uma linha da base (uma Declaração de Nascido Vivo).
 
 **Variáveis selecionadas**
@@ -74,7 +81,7 @@ O dicionário de dados em PDF permanece local e não será redistribuído no rep
 
 A limpeza remove 162 registros (0,08%) e cria 7 variáveis derivadas. Ela roda uma vez só, no script `src/01_limpeza.py`, e o resultado vira a "população" oficial do trabalho. Ler o CSV com `sep=';'`.
 
-1. **Remover** os registros com `peso` < 500 g. São 162, sendo 20 com peso zero, e são biologicamente implausíveis para nascido vivo (provavelmente erros de digitação). Resultado: N = 197.639.
+1. **Aplicar o recorte analítico de peso ≥ 500 g**, mantendo a definição já usada nos cálculos. Foram excluídos 162 registros, dos quais 20 têm peso zero e 142 têm peso positivo. A exclusão é uma decisão operacional do projeto; peso abaixo de 500 g não prova, por si só, erro de registro ou impossibilidade biológica. Nascidos vivos com peso extremamente baixo podem ser registrados quando há sinais de vida. Como não vamos refazer a análise, as conclusões devem ser explicitamente limitadas ao recorte de peso ≥ 500 g, e essa restrição deve aparecer no relatório e na apresentação.
 2. **Derivar `idade_mae`** = (`data_nascimento` − `nascimento_mae`) em anos. As duas colunas estão no formato `mm/aaaa`; ler com `format='%m/%Y'` e tirar os espaços em branco antes. Cerca de 1,6% fica vazio porque a data da mãe não foi informada. Esses registros ficam na base e só saem das análises de idade.
 3. **Derivar as variáveis binárias:**
    - `cesarea` = 1 se `parto` == 'CESAREO'. Os 18 registros IGNORADO ou vazios entram como 0 e isso vai anotado.
@@ -82,7 +89,7 @@ A limpeza remove 162 registros (0,08%) e cria 7 variáveis derivadas. Ela roda u
    - `prematuro` = 1 se `duracao_gestacao` for menor que 37 semanas (as 4 faixas abaixo de "DE 37 A 41 SEM")
    - `escol_12mais` = 1 se `escolaridade_mae` == 'COM 12 ANOS OU MAIS'
    - `prenatal_7mais` = 1 se `nro_consultas_prenatal` == '7 OU MAIS CONS'
-4. **Derivar `ano`** a partir de `data_nascimento`, para o filtro dos painéis.
+4. **Derivar `ano`** a partir de `data_nascimento`, para o filtro dos painéis. A série cobre 2011–2021; 2021 tem 14.130 registros na população analítica, portanto não deve ser confundido com o último ano coberto, 2020.
 5. **Não usar** colunas muito incompletas ou fora do escopo: `raca` (98,5% vazia), `classe_robson` (88,8%), `cesaria_antes_parto` (50,3%), `cid_anomalia`, `cbo_mae` e `ocupacao`.
 6. **Salvar** em `data/populacao.parquet` e registrar no Painel 1 o N antes e depois da limpeza.
 

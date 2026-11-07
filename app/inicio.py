@@ -8,8 +8,11 @@ st.write(
 )
 st.markdown(
     "A base contém nascimentos registrados em Porto Alegre entre 2011 e 2021. "
-    "Após remover pesos abaixo de 500 g, a população analisada tem 197.639 "
-    "registros; a amostra aleatória simples contém 384 nascimentos. "
+    "Após aplicar o recorte analítico de peso igual ou superior a 500 g, "
+    "a população analisada tem 197.639 registros; a amostra aleatória simples "
+    "contém 384 nascimentos. O limite é uma decisão metodológica deste estudo; "
+    "nascidos vivos podem apresentar peso extremamente baixo, então registros "
+    "abaixo do limite não são automaticamente classificados como erros. "
     "O aplicativo disponibiliza apenas resumos estatísticos agregados, sem "
     "registros individuais."
 )

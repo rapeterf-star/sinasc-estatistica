@@ -22,9 +22,14 @@ st.caption(
     "Este painel publica apenas estatísticas agregadas, sem linhas individuais."
 )
 st.markdown(
-    f"**N antes da limpeza:** {N_ORIGINAL:,}".replace(",", ".")
-    + f" · **N após remover peso abaixo de 500 g:** {resumo['n_populacao']:,}"
+    f"**N antes do recorte:** {N_ORIGINAL:,}".replace(",", ".")
+    + f" · **N após o recorte de peso ≥ 500 g:** {resumo['n_populacao']:,}"
     .replace(",", ".")
+)
+st.caption(
+    "O limite de 500 g é um recorte metodológico, não uma afirmação de que "
+    "todos os registros abaixo dele sejam inválidos. As conclusões referem-se "
+    "à população analisada após esse recorte."
 )
 
 for inicio in (0, 4):
