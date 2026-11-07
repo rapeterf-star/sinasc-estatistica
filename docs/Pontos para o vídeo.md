@@ -10,9 +10,11 @@ Uma proporção amostral diferente — por exemplo, 70% — não significa autom
 
 ## Possível incremento para avaliar ao final
 
-Depois que todos os requisitos do enunciado estiverem concluídos, avaliar se cabe acrescentar uma análise curta dos dados com algum conteúdo adicional visto em aula, como correlação ou regressão. Isso é opcional, não altera o escopo principal e só deve ser incluído se houver tempo e se ajudar a interpretar os dados sem sugerir causalidade.
+Depois que todos os requisitos do enunciado estiverem concluídos, avaliar se cabe acrescentar ao relatório uma análise exploratória curta com conteúdo adicional visto em aula, como correlação e regressão linear simples. Isso é opcional, não altera o escopo principal e só deve ser incluído se houver tempo e se a relação observada sustentar uma interpretação útil, sem sugerir causalidade.
 
 Como referência complementar da disciplina, consultar os [slides de Probabilidade e Estatística da UFRGS](https://www.ufrgs.br/probabilidade-estatistica/slides/index.html). O material lista conteúdos diretamente relacionados ao trabalho — análise exploratória e medidas descritivas, distribuições amostrais, testes de hipóteses para médias e proporções — e também coeficiente de correlação e regressão linear simples. Estes dois últimos ficam como possíveis incrementos a avaliar somente depois da conclusão do escopo obrigatório.
+
+Se a análise complementar for realizada, mencioná-la no vídeo em uma frase breve, sem apresentar fórmulas, coeficientes ou detalhes de interpretação. O vídeo de até quatro minutos deve continuar priorizando os resultados obrigatórios.
 
 ## Por que não usamos um heatmap de temperatura?
 

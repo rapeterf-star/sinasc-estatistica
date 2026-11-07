@@ -48,6 +48,7 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 
 - [ ] Publicar no Moodle um texto curto apresentando o objetivo, a base, o método e os principais resultados
 - [ ] Preparar um relatório acadêmico complementar em LaTeX e compilar o PDF, seguindo como referência de estrutura/apresentação o trabalho AGI-ARC-1 da disciplina anterior
+- [ ] Somente após concluir o escopo obrigatório, avaliar se uma breve análise exploratória de correlação/regressão linear simples agrega valor ao relatório; se incluída, mencioná-la no vídeo em uma frase, sem detalhar resultados
 - [ ] Incluir no relatório a justificativa do recorte de peso ≥ 500 g, a ressalva de que registros abaixo desse valor podem corresponder a nascidos vivos, e a limitação decorrente; não substituir o texto curto exigido no Moodle
 - [ ] Registrar no relatório e no texto do Moodle que o Q-Q plot do peso mostra afastamento da normalidade na cauda inferior; interpretar isso como característica/discrepância da distribuição que merece contextualização, não como motivo isolado para excluir ou ajustar registros
 - [ ] Incluir no texto os links do app Streamlit (três painéis), do vídeo no YouTube como "Não listado" e da base original, com a identificação da fonte
