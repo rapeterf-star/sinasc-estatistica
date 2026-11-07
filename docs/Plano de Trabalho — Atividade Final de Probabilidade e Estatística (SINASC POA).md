@@ -33,7 +33,7 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 - [x] Ignorar CSVs e Parquets com registros individuais no Git
 - [x] Criar o repositório público no GitHub e publicar o código e o resumo agregado, sem microdados individuais
 - [x] Publicar a aplicação no Streamlit Community Cloud
-- [ ] Abrir o app numa janela anônima e verificar os três painéis sem login
+- [x] Abrir o app numa janela anônima e verificar os três painéis sem login
 
 **Privacidade na publicação:** `data/sinasc_nascimentos.csv`, `data/populacao.parquet` e `data/amostra.csv` permanecem locais e são ignorados pelo Git. O deploy deve incluir apenas `data/resumo_publico.json`, que contém estatísticas e distribuições agrupadas; grupos com menos de 10 registros são reunidos ou omitidos.
 
