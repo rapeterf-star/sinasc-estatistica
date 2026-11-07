@@ -170,6 +170,27 @@ class TestPreparacaoPublicacao(unittest.TestCase):
             [renderizacao.COR_POPULACAO, renderizacao.COR_AMOSTRA],
         )
 
+    def test_tendencia_anual_identifica_todos_os_anos_e_o_ponto_final(self) -> None:
+        anos = list(range(2011, 2022))
+        valores = [53.4, 52.1, 51.7, 51.9, 49.8, 50.1, 50.3, 49.4, 49.4, 49.3, 49.4]
+
+        with patch.object(renderizacao.st, "plotly_chart") as plotly_chart:
+            renderizacao._figura_tendencia_anual(
+                anos,
+                valores,
+                "Cesáreas por ano",
+                "Cesáreas (%)",
+                "Cesáreas (%)",
+                "teste",
+            )
+
+        figura = plotly_chart.call_args.args[0]
+        self.assertEqual(list(figura.layout.xaxis.tickvals), anos)
+        self.assertEqual(list(figura.layout.xaxis.ticktext), [str(ano) for ano in anos])
+        self.assertEqual(list(figura.data[0].x), anos)
+        self.assertEqual(figura.data[0].text[-1], "2021")
+        self.assertEqual(figura.data[0].marker.size[-1], 10)
+
 
 if __name__ == "__main__":
     unittest.main()

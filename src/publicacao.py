@@ -302,6 +302,47 @@ def _figura_boxplot(
     st.plotly_chart(fig, key=chave)
 
 
+def _figura_tendencia_anual(
+    anos: list[int],
+    valores: list[float],
+    titulo: str,
+    unidade: str,
+    nome_serie: str,
+    chave: str,
+) -> None:
+    texto_ponto_final = [""] * (len(anos) - 1) + [str(anos[-1])]
+    tamanhos_marcadores = [6] * (len(anos) - 1) + [10]
+    fig = go.Figure(
+        go.Scatter(
+            x=anos,
+            y=valores,
+            mode="lines+markers+text",
+            text=texto_ponto_final,
+            textposition="top right",
+            line={"color": COR_POPULACAO},
+            marker={
+                "color": COR_POPULACAO,
+                "size": tamanhos_marcadores,
+                "line": {"color": "#FFFFFF", "width": 1},
+            },
+            hovertemplate=f"Ano: %{{x}}<br>{nome_serie}: %{{y:.2f}}<extra></extra>",
+        )
+    )
+    fig.update_layout(
+        title=titulo,
+        xaxis_title="Ano",
+        yaxis_title=unidade,
+        xaxis={
+            "tickmode": "array",
+            "tickvals": anos,
+            "ticktext": [str(ano) for ano in anos],
+            "range": [anos[0] - 0.4, anos[-1] + 0.6],
+        },
+        margin={"t": 55},
+    )
+    st.plotly_chart(fig, key=chave)
+
+
 def _figura_qq(
     pontos: list[dict[str, float]],
     inclinacao: float,
@@ -455,42 +496,28 @@ def _mostrar_cruzamentos(dados: dict[str, Any], chave: str) -> None:
     anual = pd.DataFrame(dados["tendencias_anuais"])
     col_esq, col_dir = st.columns(2)
     with col_esq:
-        fig = go.Figure(
-            go.Scatter(
-                x=anual["ano"],
-                y=[valor * 100 for valor in anual["cesarea"]],
-                mode="lines+markers",
-                line={"color": COR_POPULACAO},
-                marker={"color": COR_POPULACAO},
-                hovertemplate="%{x}<br>Cesáreas: %{y:.2f}%<extra></extra>",
-            )
+        _figura_tendencia_anual(
+            anual["ano"].tolist(),
+            [valor * 100 for valor in anual["cesarea"]],
+            "Cesáreas por ano",
+            "Cesáreas (%)",
+            "Cesáreas (%)",
+            f"{chave}_cesareas_ano",
         )
-        fig.update_layout(
-            title="Cesáreas por ano",
-            xaxis_title="Ano",
-            yaxis_title="Cesáreas (%)",
-        )
-        st.plotly_chart(fig, key=f"{chave}_cesareas_ano")
     with col_dir:
-        fig = go.Figure(
-            go.Scatter(
-                x=anual["ano"],
-                y=anual["peso_medio"],
-                mode="lines+markers",
-                line={"color": COR_POPULACAO},
-                marker={"color": COR_POPULACAO},
-                hovertemplate="%{x}<br>Peso médio: %{y:.1f} g<extra></extra>",
-            )
+        _figura_tendencia_anual(
+            anual["ano"].tolist(),
+            anual["peso_medio"].tolist(),
+            "Peso médio por ano",
+            "Peso médio (g)",
+            "Peso médio (g)",
+            f"{chave}_peso_ano",
         )
-        fig.update_layout(
-            title="Peso médio por ano",
-            xaxis_title="Ano",
-            yaxis_title="Peso médio (g)",
-        )
-        st.plotly_chart(fig, key=f"{chave}_peso_ano")
     st.caption(
-        "As tendências anuais mostram que os dados podem variar ao longo do tempo; "
-        "os resultados gerais representam a mistura dos anos de 2011 a 2021."
+        "Cada ponto representa um ano. A série vai de 2011 a 2021, inclusive; "
+        "o ponto final está destacado e identificado. As tendências mostram que "
+        "os dados podem variar ao longo do tempo, enquanto os resultados gerais "
+        "representam a mistura do período."
     )
 
 
