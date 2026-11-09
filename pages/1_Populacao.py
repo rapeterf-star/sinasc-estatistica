@@ -3,6 +3,7 @@ import streamlit as st
 from src.publicacao import (
     N_ORIGINAL,
     carregar_resumo_publico,
+    como_ler_painel,
     formatar_numero,
     formatar_percentual,
     renderizar_descritiva,
@@ -10,6 +11,12 @@ from src.publicacao import (
 
 
 st.title("Painel 1 — População")
+como_ler_painel(
+    "Aqui estão os parâmetros verdadeiros (N, μ, σ, π) dos 197.639 nascimentos: "
+    "o \"gabarito\" contra o qual a amostra é julgada no Painel 3. Use o filtro "
+    "de ano na barra lateral para ver cada ano. A descrição completa está na "
+    "seção 4.1 do relatório."
+)
 resumo = carregar_resumo_publico()
 populacao = resumo["populacao"]
 anos = ["Todos"] + sorted(populacao["por_ano"], key=int)

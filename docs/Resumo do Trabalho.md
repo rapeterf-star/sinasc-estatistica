@@ -18,7 +18,7 @@ A base contém 197.801 registros de 2011 a 2021. Para manter o recorte já usado
 2. Criar um painel descritivo da população e outro da amostra, comparando medidas como peso ao nascer e proporção de cesáreas.
 3. Usar a amostra para realizar quatro testes estatísticos: dois sobre proporções e dois sobre médias. Apresentar intervalos de confiança, valores-p, decisões e condições de aplicação.
 4. Comparar os resultados da amostra com os valores conhecidos na população e explicar o que os resultados significam, incluindo as limitações da análise.
-5. Publicar os painéis em um aplicativo Streamlit, apresentar o trabalho em um vídeo de até quatro minutos no YouTube como "Não listado" e entregar no Moodle um texto curto com o contexto, o método e os principais resultados, junto com os links e a fonte dos dados.
+5. Publicar os painéis em um aplicativo Streamlit, apresentar o trabalho em um vídeo de 4 a 5 minutos no YouTube como "Não listado" e entregar no Moodle um texto curto com o contexto, o método e os principais resultados, junto com os links e a fonte dos dados.
 6. Elaborar também um relatório acadêmico complementar em LaTeX/PDF, seguindo como referência de estrutura o trabalho AGI-ARC-1 da disciplina anterior. Esse relatório complementa, mas não substitui, o texto curto solicitado no Moodle.
 
 ## O que pretendemos mostrar

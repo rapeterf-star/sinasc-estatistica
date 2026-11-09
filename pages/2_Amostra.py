@@ -3,6 +3,7 @@ import streamlit as st
 from src.publicacao import (
     SEMENTE,
     carregar_resumo_publico,
+    como_ler_painel,
     formatar_numero,
     formatar_percentual,
     renderizar_comparacao,
@@ -11,6 +12,12 @@ from src.publicacao import (
 
 
 st.title("Painel 2 — Amostra")
+como_ler_painel(
+    "Os mesmos indicadores do Painel 1, agora calculados só com os 384 "
+    "nascimentos sorteados (n, x̄, S, P), seguidos da comparação lado a lado "
+    "com a população. Diferenças pequenas são esperadas pela variabilidade "
+    "amostral. O dimensionamento e o sorteio estão na seção 3.1 do relatório."
+)
 resumo = carregar_resumo_publico()
 amostra = resumo["amostra"]
 populacao = resumo["populacao"]
@@ -31,11 +38,35 @@ st.markdown(
     f"{formatar_percentual(resumo['n_amostra'] / resumo['n_populacao'], 2)} · "
     f"sorteio em {resumo['data_sorteio']}."
 )
-st.code(
-    "amostra = populacao.sort_values('indice_original').sample("
-    "n=384, replace=False, random_state=2026)",
-    language="python",
-)
+with st.expander("Cálculo do tamanho amostral"):
+    st.markdown(
+        "Parâmetros: confiança de **95%** (Z = 1,96), margem de erro de "
+        "**5 p.p.** e **p = 0,5**, o valor que maximiza p(1 − p) e, portanto, "
+        "garante a margem para qualquer proporção estimada."
+    )
+    st.latex(r"n_0 = \frac{Z^2\,p(1-p)}{d^2} = \frac{1{,}96^2 \times 0{,}25}{0{,}05^2} = 384{,}16")
+    st.latex(
+        r"n = \frac{n_0}{1 + \frac{n_0 - 1}{N}}"
+        r" = \frac{384{,}16}{1 + \frac{383{,}16}{197.639}} \approx 383{,}4"
+        r" \;\Rightarrow\; n = 384"
+    )
+    st.caption(
+        "Como a fração amostral é de apenas 0,19%, a correção para população "
+        "finita quase não altera o resultado. O valor n = 384 foi conferido na "
+        "[calculadora de tamanho de amostra da SurveyMonkey]"
+        "(https://pt.surveymonkey.com/learn/research-and-analysis/sample-size-calculator/) "
+        "(população 197.639, confiança 95%, margem de erro 5%)."
+    )
+with st.expander("Procedimento de seleção"):
+    st.code(
+        "amostra = populacao.sort_values('indice_original').sample("
+        "n=384, replace=False, random_state=2026)",
+        language="python",
+    )
+    st.caption(
+        "Sorteio único, sem reposição, com semente fixa: cada nascimento tem a "
+        "mesma probabilidade de seleção (384/197.639 ≈ 0,19%)."
+    )
 
 indicadores = amostra["total"]["indicadores"]
 metricas = [

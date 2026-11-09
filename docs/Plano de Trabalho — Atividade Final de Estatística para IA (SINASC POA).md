@@ -1,4 +1,4 @@
-# Plano de Trabalho — Atividade Final de Probabilidade e Estatística (SINASC POA)
+# Plano de Trabalho — Atividade Final de Estatística para IA (SINASC POA)
 
 Nov 4, 2026 · @Renato
 
@@ -37,21 +37,31 @@ O trabalho usa a base SINASC de Porto Alegre (197.801 nascimentos, 2011–2021) 
 
 **Privacidade na publicação:** `data/sinasc_nascimentos.csv`, `data/populacao.parquet` e `data/amostra.csv` permanecem locais e são ignorados pelo Git. O deploy deve incluir apenas `data/resumo_publico.json`, que contém estatísticas e distribuições agrupadas; grupos com menos de 10 registros são reunidos ou omitidos.
 
-**Ressalva sobre o corte de peso:** mantemos a população analítica e os resultados já calculados (N = 197.639; amostra n = 384), sem refazer as análises. O corte de 500 g é tratado como uma decisão operacional deste estudo, não como prova de que todo registro abaixo desse valor seja erro ou biologicamente impossível. A literatura e as orientações citadas indicam que um nascimento pode ser registrado como nascido vivo quando há sinais de vida, independentemente do peso; portanto, parte dos registros abaixo de 500 g pode ser legítima. O relatório deve dizer que as conclusões se aplicam ao recorte analisado após o corte e reconhecer que a exclusão pode deixar de fora nascidos vivos de peso extremamente baixo. Foram removidos 162 registros, dos quais 20 têm peso zero e 142 têm peso positivo.
+**Ressalva sobre o corte de peso:** mantemos a população analítica e os resultados já calculados (N = 197.639; amostra n = 384), sem refazer as análises. O corte de 500 g é tratado como uma decisão operacional deste estudo, não como prova de que todo registro abaixo desse valor seja erro ou biologicamente impossível. A definição de nascido vivo da [Secretaria Estadual da Saúde do RS](http://www1.saude.rs.gov.br/dados/1249057345460Mortalidade_Perinatal_no_RS_grassi.pdf) considera sinais de vida após a separação, sem estabelecer peso mínimo; portanto, parte dos registros abaixo de 500 g pode ser legítima. O relatório limita as conclusões ao recorte analisado e reconhece que a exclusão pode deixar de fora nascidos vivos de peso extremamente baixo. Foram removidos 162 registros, dos quais 20 têm peso zero e 142 têm peso positivo.
 
 **Etapa 5 — Vídeo (sex 13/11 a sáb 14/11)**
 
-- [ ] Ensaiar o roteiro da seção 9 com cronômetro (meta: 3min50s, limite de 4 minutos)
-- [ ] Gravar a tela com o OBS ou o Loom, editar e subir no YouTube como "Não listado"
+- [x] Preparar uma fala completa em `docs/Roteiro para o vídeo.md`, mantendo a análise complementar em uma frase
+- [x] Exportar telas de referência dos painéis para `docs/capturas_video/`, para apoiar a montagem do vídeo em outro editor/assistente
+- [ ] Ensaiar o roteiro com cronômetro (meta: entre 4 e 5 minutos; há tolerância)
+- [x] Gravar e editar a primeira versão do vídeo (MP4 local; duração de 4min38s)
+- [x] Revisar visualmente a primeira versão: sequência dos painéis, destaques e dados conferem; pendência de corrigir o título H1 que permanece visível nas cenas H2–H4
+- [ ] Validar a narração/áudio e corrigir o enquadramento; a duração de 4 a 5 minutos está dentro da tolerância da professora
+- [ ] Subir no YouTube como "Não listado"
 
 **Etapa 6 — Entrega (dom 15/11, até 18h)**
 
-- [ ] Publicar no Moodle um texto curto apresentando o objetivo, a base, o método e os principais resultados
-- [ ] Preparar um relatório acadêmico complementar em LaTeX e compilar o PDF, seguindo como referência de estrutura/apresentação o trabalho AGI-ARC-1 da disciplina anterior
-- [ ] Somente após concluir o escopo obrigatório, avaliar se uma breve análise exploratória de correlação/regressão linear simples agrega valor ao relatório; se incluída, mencioná-la no vídeo em uma frase, sem detalhar resultados
-- [ ] Incluir no relatório a justificativa do recorte de peso ≥ 500 g, a ressalva de que registros abaixo desse valor podem corresponder a nascidos vivos, e a limitação decorrente; não substituir o texto curto exigido no Moodle
-- [ ] Registrar no relatório e no texto do Moodle que o Q-Q plot do peso mostra afastamento da normalidade na cauda inferior; interpretar isso como característica/discrepância da distribuição que merece contextualização, não como motivo isolado para excluir ou ajustar registros
-- [ ] Incluir no texto os links do app Streamlit (três painéis), do vídeo no YouTube como "Não listado" e da base original, com a identificação da fonte
+- [x] Preparar o rascunho do texto curto para o Moodle em `docs/Texto para o Moodle.md`, com objetivo, fonte, método, resultados e ressalvas
+- [ ] Publicar o texto no Moodle após revisão final
+- [x] Criar a primeira versão do relatório acadêmico complementar em LaTeX e compilar o PDF (`docs/relatorio.tex` e `docs/relatorio.pdf`)
+- [x] Conferir a definição de nascido vivo na fonte da Secretaria Estadual da Saúde do RS e citá-la no relatório; retirar a referência do LUME cujos metadados não puderam ser confirmados
+- [x] Revisar a apresentação do relatório; o formato acadêmico atual foi considerado adequado, sem necessidade de comparação com o AGI-ARC-1
+- [x] Após concluir o escopo obrigatório, incluir no relatório uma análise exploratória de correlação/regressão; mencionar no vídeo em uma frase, sem detalhar resultados
+- [x] Incluir no relatório a justificativa do recorte de peso ≥ 500 g, a ressalva de que registros abaixo desse valor podem corresponder a nascidos vivos e a limitação decorrente; não substituir o texto curto exigido no Moodle
+- [x] Registrar no relatório que o Q-Q plot do peso mostra afastamento da normalidade na cauda inferior; interpretar isso como característica/discrepância da distribuição que merece contextualização, não como motivo isolado para excluir ou ajustar registros
+- [x] Registrar no rascunho para o Moodle a observação do Q-Q plot do peso e a interpretação cautelosa
+- [x] Incluir no rascunho os links do app Streamlit e da base original, com a identificação da fonte
+- [ ] Inserir no texto o link do vídeo do YouTube após publicá-lo como "Não listado"
 - [ ] Conferir que o app e o vídeo abrem pelos links compartilhados e que o vídeo está como "Não listado"
 
 ## 2. Base de dados
@@ -90,13 +100,13 @@ A limpeza remove 162 registros (0,08%) e cria 7 variáveis derivadas. Ela roda u
    - `prematuro` = 1 se `duracao_gestacao` for menor que 37 semanas (as 4 faixas abaixo de "DE 37 A 41 SEM")
    - `escol_12mais` = 1 se `escolaridade_mae` == 'COM 12 ANOS OU MAIS'
    - `prenatal_7mais` = 1 se `nro_consultas_prenatal` == '7 OU MAIS CONS'
-4. **Derivar `ano`** a partir de `data_nascimento`, para o filtro dos painéis. A série cobre 2011–2021; 2021 tem 14.130 registros na população analítica, portanto não deve ser confundido com o último ano coberto, 2020.
+4. **Derivar `ano`** a partir de `data_nascimento`, para o filtro dos painéis. A série cobre 2011–2021; 2021 é o último ano, com 14.130 registros na população analítica (o menor volume anual da série).
 5. **Não usar** colunas muito incompletas ou fora do escopo: `raca` (98,5% vazia), `classe_robson` (88,8%), `cesaria_antes_parto` (50,3%), `cid_anomalia`, `cbo_mae` e `ocupacao`.
 6. **Salvar** em `data/populacao.parquet` e registrar no Painel 1 o N antes e depois da limpeza.
 
 ## 4. Dimensionamento e seleção da amostra (AAS)
 
-A amostra tem **n = 384 nascimentos**, sorteados por amostragem aleatória simples sem reposição com semente fixa. Esse é o resultado da calculadora da USP/Bauru com os parâmetros abaixo.
+A amostra tem **n = 384 nascimentos**, sorteados por amostragem aleatória simples sem reposição com semente fixa. O valor foi calculado pela fórmula abaixo e conferido na [calculadora de tamanho de amostra da SurveyMonkey](https://pt.surveymonkey.com/learn/research-and-analysis/sample-size-calculator/) com os mesmos parâmetros (a calculadora da USP/Bauru sugerida no enunciado estava fora do ar).
 
 | Parâmetro | Valor | Justificativa |
 | --- | --- | --- |
@@ -196,7 +206,7 @@ O Painel 3 testa 4 hipóteses só com a amostra e depois confere cada conclusão
 | --- | --- | --- | --- | --- | --- |
 | H1 | A cesárea já é maioria dos partos em POA? | π = 0,50 | π > 0,50 (unilateral) | IC de Wald e teste Z de 1 proporção | π = 0,507 |
 | H2 | A taxa de cesárea difere conforme a escolaridade da mãe? | π₁ = π₂ | π₁ ≠ π₂ | IC da diferença e teste Z de 2 proporções (P agrupada) | 74,2% (12 anos ou mais) × 39,9% (demais) |
-| H3 | O peso médio ao nascer difere de 3.200 g? | μ = 3.200 g | μ ≠ 3.200 g | IC t e teste t de 1 amostra | μ = 3.189 g |
+| H3 | O peso médio ao nascer difere de 3.200 g (valor próximo da mediana da OMS ao nascer: ~3,2 kg meninas, ~3,3 kg meninos)? | μ = 3.200 g | μ ≠ 3.200 g | IC t e teste t de 1 amostra | μ = 3.189 g |
 | H4 | O peso médio difere entre mães com 7 ou mais consultas de pré-natal e as demais? | μ₁ = μ₂ | μ₁ ≠ μ₂ | IC da diferença e teste t de Welch | 3.248 g × 3.015 g |
 
 Resultados observados na amostra oficial de n = 384:
@@ -285,26 +295,21 @@ sinasc-estatistica/
 3. Escolher uma URL curta (por exemplo, `sinasc-poa-estatistica`)
 4. Testar numa janela anônima e copiar as 3 URLs das páginas para a entrega
 
-## 9. Roteiro do vídeo (meta: 3min50s; limite: 4 minutos)
+## 9. Roteiro do vídeo (meta: entre 4 e 5 minutos, com tolerância)
 
 O vídeo gasta metade do tempo na inferência e na comparação, porque o enunciado pede prioridade à interpretação, e não à descrição de gráficos. Grave a tela navegando no app e fale por cima. Os valores apresentados abaixo foram calculados com a amostra oficial e a população limpa.
 
 | Tempo | Tela | Fala (resumo) |
 | --- | --- | --- |
-| 0:00–0:15 | Capa do app | "Usei dados de nascimentos de Porto Alegre para avaliar o que uma amostra de 384 registros revela sobre a população." |
-| 0:15–0:35 | Painel 1, topo | Fonte SINASC, período de 2011 a 2021, população de 197.639 nascimentos após a limpeza e unidade amostral: cada nascimento. |
-| 0:35–0:55 | Painel 2, cartão do sorteio | "Dimensionei a amostra com 95% de confiança, erro de 5 pontos percentuais e p = 0,5, o pior caso. Sorteei 384 nascimentos sem reposição, com semente 2026." |
-| 0:55–1:10 | Painéis 1 e 2, tabela de comparação | "Na população, o peso médio foi 3.189 g e a taxa de cesáreas 50,7%. Na amostra, foram 3.228 g e 52,1%; diferenças são esperadas pela variabilidade amostral." |
-| 1:10–1:30 | Painel 3, H1 | "A cesárea é maioria? Na amostra, P = 52,1%, com valor-p = 0,207: não rejeito H₀. Como a proporção populacional é 50,72%, ocorreu erro tipo II." |
-| 1:30–1:50 | Painel 3, H2 | "Com 12 anos ou mais de estudo, a taxa amostral de cesáreas foi 72,2%, contra 43,5%. O valor-p é menor que 0,001: rejeito H₀, corretamente." |
-| 1:50–2:10 | Painel 3, H3 | "O peso médio difere de 3.200 g? O intervalo de 95% vai de 3.172,7 a 3.284,0 g e o valor-p é 0,317: não rejeito H₀; é erro tipo II." |
-| 2:10–2:35 | Painel 3, H4 | "Com sete ou mais consultas pré-natais, o peso amostral foi 327 g maior. O teste de Welch dá valor-p menor que 0,001: rejeito H₀. É associação, não causalidade." |
-| 2:35–3:20 | Painel 3, tabela-resumo + simulação | "Os quatro intervalos contêm os parâmetros populacionais. Houve duas rejeições corretas e dois erros tipo II. Em mil amostras, a cobertura ficou entre 94,8% e 95,6%. Efeitos pequenos foram mais difíceis de detectar." |
-| 3:20–3:50 | Painel 3, limitações | "A análise usa uma amostra, dados administrativos e uma população que varia no tempo. Os resultados mostram associações, não causas. Mesmo com 0,19% da população, a amostra permitiu estimar e testar hipóteses, com a incerteza indicada pelos intervalos." |
+| 0:00–0:25 | Início do app e Painel 1 | Objetivo, fonte SINASC, período de 2011 a 2021 e população analítica de 197.639 registros. |
+| 0:25–0:55 | Painéis 1 e 2 | Dimensionamento e sorteio da amostra; comparar peso médio e proporção de cesáreas entre população e amostra. |
+| 0:55–2:35 | Painel 3, H1 a H4 | Apresentar estimativas, valores-p e decisões; explicar os erros tipo II e interpretar as diferenças como associações, sem causalidade. |
+| 2:35–3:15 | Painel 3, tabela-resumo e simulação | Cobertura dos quatro intervalos e cobertura observada em mil amostras. |
+| 3:15–3:50 | Painel 3, limitações e conclusão | Ressalva do recorte de 500 g, interpretação do Q-Q plot e uma frase sobre a exploração de correlação/regressão. |
 
 **Dicas de gravação**
 
-- Escreva a fala completa a partir dessa tabela, mas fale olhando para a tela, e não lendo palavra por palavra
+- Use a fala completa de [Roteiro para o vídeo](./Roteiro%20para%20o%20v%C3%ADdeo.md) como base; ensaie olhando para a tela, sem precisar ler palavra por palavra
 - Ensaie com cronômetro e mantenha o vídeo abaixo de 4 minutos; a meta de 3min50s reserva uma pequena margem. Se ultrapassar, corte detalhes descritivos, sem omitir as decisões e interpretações das quatro hipóteses
 - Use o zoom do navegador em 125% para os números ficarem legíveis no vídeo
 - No YouTube, deixe como "Não listado" e confira se abre sem login

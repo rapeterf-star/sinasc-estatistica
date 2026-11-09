@@ -11,10 +11,33 @@ from scipy import stats
 
 ROOT = Path(__file__).resolve().parents[1]
 ARQUIVO_PUBLICO = ROOT / "data" / "resumo_publico.json"
+RELATORIO_PDF = ROOT / "docs" / "relatorio.pdf"
 N_ORIGINAL = 197_801
 N_MINIMO_EXIBICAO = 10
 SEMENTE = 2026
 DATA_SORTEIO = "04/11/2026"
+JUSTIFICATIVAS_HIPOTESES = {
+    "H1": (
+        "50% é o limiar de maioria: a pergunta é se a cesárea já supera o parto "
+        "vaginal em Porto Alegre. A hipótese é unilateral porque o interesse é "
+        "apenas se a proporção é maior que 50%."
+    ),
+    "H2": (
+        "A escolaridade materna é um marcador socioeconômico; a pergunta é se "
+        "o acesso associado a ela se reflete no tipo de parto."
+    ),
+    "H3": (
+        "3.200 g é um valor de referência próximo da mediana do peso ao nascer "
+        "nos padrões de crescimento da OMS (cerca de 3,2 kg para meninas e "
+        "3,3 kg para meninos). A pergunta é se o peso médio dos nascidos em "
+        "Porto Alegre se afasta desse patamar."
+    ),
+    "H4": (
+        "Mais consultas de pré-natal costumam estar associadas a melhores "
+        "desfechos; '7 ou mais' é a faixa mais alta registrada no SINASC. A "
+        "pergunta é se essa diferença aparece no peso médio ao nascer."
+    ),
+}
 COR_POPULACAO = "#0072B2"
 COR_AMOSTRA = "#D55E00"
 CORES_CONJUNTOS = {
@@ -699,6 +722,26 @@ def _figura_barras_comparacao(agrupado: pd.DataFrame) -> go.Figure:
     return fig
 
 
+def botao_relatorio(rotulo: str = "Relatório completo (PDF)") -> None:
+    """Botão para baixar o relatório acadêmico, quando o PDF estiver publicado."""
+    if not RELATORIO_PDF.exists():
+        return
+    st.download_button(
+        rotulo,
+        data=RELATORIO_PDF.read_bytes(),
+        file_name="relatorio_sinasc_poa.pdf",
+        mime="application/pdf",
+        icon=":material/description:",
+    )
+
+
+def como_ler_painel(texto: str) -> None:
+    """Guia curto de leitura no topo de cada painel, com acesso ao relatório."""
+    with st.container(border=True):
+        st.markdown(f"**Como ler este painel.** {texto}")
+        botao_relatorio("Abrir o relatório completo (PDF)")
+
+
 def renderizar_inferencia(resumo: dict[str, Any]) -> None:
     resultados = resumo["inferencia"]["resultados"]
     simulacao = resumo["inferencia"]["simulacao"]
@@ -724,6 +767,11 @@ def renderizar_inferencia(resumo: dict[str, Any]) -> None:
         }
 
     st.title("Painel 3 — Inferência")
+    como_ler_painel(
+        "Para cada hipótese: a pergunta e sua justificativa, a estimativa e o IC "
+        "de 95%, o teste e a decisão e, por fim, a conferência com o valor real "
+        "da população. A análise completa está nas seções 4.2 e 4.3 do relatório."
+    )
     st.markdown(
         "Os quatro testes usam a amostra aleatória oficial de 384 nascimentos. "
         "O nível de significância é **α = 5%**. Depois das decisões, comparamos "
@@ -745,6 +793,11 @@ def renderizar_inferencia(resumo: dict[str, Any]) -> None:
             f"H₁: {resultado['hipotese_alternativa']} · **α = 5%**  \n"
             f"**Procedimento:** {resultado['procedimento']}"
         )
+        if resultado["codigo"] in JUSTIFICATIVAS_HIPOTESES:
+            st.caption(
+                "**Por que esta hipótese?** "
+                f"{JUSTIFICATIVAS_HIPOTESES[resultado['codigo']]}"
+            )
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Estimativa amostral", medida(resultado, resultado["estimativa"]))

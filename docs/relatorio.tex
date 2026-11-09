@@ -1,0 +1,260 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xurl}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdftitle={Análise estatística de nascimentos em Porto Alegre},
+    pdfauthor={Renato Albano Petersen Filho}
+}
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.25em}
+\renewcommand{\arraystretch}{1.2}
+\emergencystretch=3em
+
+\title{\textbf{Análise estatística de nascimentos em Porto Alegre}\\
+\large Descrição populacional, amostragem e testes de hipóteses}
+\author{Renato Albano Petersen Filho\\
+\normalsize Atividade Final de Estatística para IA}
+\date{Novembro de 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este trabalho analisa registros de nascidos vivos de Porto Alegre disponibilizados pelo Sistema de Informações sobre Nascidos Vivos (SINASC), referentes ao período de 2011 a 2021. A partir de 197.801 registros originais, foi definido um recorte analítico de 197.639 registros com peso igual ou superior a 500 g. Uma amostra aleatória simples, sem reposição, de 384 nascimentos foi selecionada com semente fixa. Foram elaboradas estatísticas descritivas e realizados quatro testes de hipóteses: dois para proporções e dois para médias. As estimativas amostrais foram comparadas com os parâmetros calculados na população analítica, e uma simulação de 1.000 amostras ilustrou cobertura de intervalos de confiança e poder empírico. Como exploração complementar, examinou-se a associação entre idade materna e peso ao nascer. Os resultados são interpretados considerando a variabilidade amostral, a variação temporal e as limitações do recorte de peso e dos dados administrativos.
+\end{abstract}
+
+\noindent\textbf{Palavras-chave:} SINASC; amostragem aleatória simples; teste de hipóteses; intervalo de confiança; peso ao nascer.
+
+\section{Introdução}
+
+O Sistema de Informações sobre Nascidos Vivos registra informações das Declarações de Nascido Vivo e apoia a produção de estatísticas de saúde materno-infantil. Este estudo utiliza os registros de Porto Alegre entre 2011 e 2021 para descrever características dos nascimentos e avaliar, por meio de uma amostra aleatória, o desempenho de procedimentos de inferência para proporções e médias.
+
+O objetivo é apresentar uma análise descritiva da população e da amostra, aplicar quatro testes de hipóteses e interpretar os resultados em relação aos parâmetros conhecidos na população analisada. Os resultados dos testes dizem respeito a associações e diferenças; não identificam relações causais.
+
+\section{Dados e preparação}
+
+A base foi obtida no portal de dados abertos da Prefeitura de Porto Alegre \cite{sinascpoa}. Cada registro representa um nascimento. O arquivo original possui 197.801 registros no período de janeiro de 2011 a dezembro de 2021.
+
+\subsection{Recorte analítico de peso}
+
+Para manter a população e os resultados já utilizados no projeto, a análise considera registros com peso igual ou superior a 500 g. Esse recorte resultou em \(N=197.639\) registros e excluiu 162 observações: 20 com peso zero e 142 com peso positivo.
+
+O limite de 500 g é uma decisão operacional deste estudo, e não uma afirmação de que todos os registros abaixo dele sejam erros ou biologicamente impossíveis. Estudos de saúde materno-infantil registram nascimentos de muito baixo peso \cite{agranonik}. Na definição de nascido vivo apresentada pela Secretaria Estadual da Saúde do Rio Grande do Sul, a classificação considera sinais de vida após a separação, sem estabelecer peso mínimo \cite[p.~3]{grassi}. Portanto, um valor abaixo de 500 g, isoladamente, não permite classificar um registro como erro. As conclusões deste relatório se aplicam ao recorte \(peso \geq 500\) g e não devem ser generalizadas sem ressalva a todos os registros do SINASC. A exclusão pode ter retirado nascidos vivos de peso extremamente baixo.
+
+\subsection{Variáveis e tratamento}
+
+Foram utilizadas as variáveis peso ao nascer, idade materna, tipo de parto, escolaridade materna, número de consultas pré-natais, duração da gestação e sexo do bebê. A idade materna foi derivada da diferença entre as datas mensais de nascimento da criança e da mãe, expressa em anos; registros sem idade válida foram excluídos somente das análises que envolvem essa variável. Foram construídos indicadores binários para cesárea, baixo peso ao nascer, prematuridade, escolaridade materna de 12 anos ou mais e sete ou mais consultas pré-natais.
+
+Após o recorte, a base contém observações nos 11 anos de 2011 a 2021. O ano de 2021 possui 14.130 registros na população analítica. Os dados também exibem variação temporal: a proporção anual de cesáreas diminui de aproximadamente 53,4\% em 2011 para 49,4\% em 2021. Por isso, as estatísticas agregadas do período representam a mistura de anos com comportamentos distintos.
+
+\section{Métodos}
+
+\subsection{Dimensionamento e seleção da amostra}
+
+O tamanho amostral foi dimensionado para 95\% de confiança, margem de erro de 5 pontos percentuais e proporção conservadora \(p=0{,}5\), que maximiza \(p(1-p)\). O tamanho inicial para população grande foi
+\[
+n_0=\frac{Z^2p(1-p)}{d^2}
+=\frac{1{,}96^2(0{,}5)(0{,}5)}{0{,}05^2}
+=384{,}16.
+\]
+
+Aplicando a correção para população finita:
+\[
+n=\frac{n_0}{1+(n_0-1)/N}
+=\frac{384{,}16}{1+383{,}16/197.639}
+\approx 383{,}4.
+\]
+
+Adotou-se \(n=384\). O valor foi conferido na calculadora de tamanho de amostra da SurveyMonkey (\url{https://pt.surveymonkey.com/learn/research-and-analysis/sample-size-calculator/}), com população 197.639, confiança de 95\% e margem de erro de 5\%, pois a calculadora da USP/Bauru sugerida no enunciado estava fora do ar. A seleção foi uma amostragem aleatória simples sem reposição, realizada uma única vez após ordenar os registros por identificador estável, com semente 2026. A fração amostral é \(384/197.639\approx0{,}194\%\).
+
+\subsection{Estatística inferencial}
+
+Os testes foram definidos com nível de significância \(\alpha=5\%\). Para as proporções foram usados testes \(Z\); para uma média, o teste \(t\) de uma amostra; e para a diferença entre duas médias, o teste \(t\) de Welch, que não pressupõe variâncias iguais. Os intervalos de confiança foram calculados em nível de 95\%. As condições foram avaliadas considerando o sorteio sem reposição, a fração amostral inferior a 10\%, as contagens esperadas nas proporções e o tamanho dos grupos para os procedimentos sobre médias.
+
+\begin{enumerate}[label=\textbf{H\arabic*:},leftmargin=*]
+    \item A proporção de cesáreas supera 50\%? \(H_0:\pi=0{,}50\) contra \(H_1:\pi>0{,}50\); teste \(Z\) unilateral.
+    \item A proporção de cesáreas difere entre mães com 12 anos ou mais de escolaridade e as demais? \(H_0:\pi_1-\pi_2=0\) contra \(H_1:\pi_1-\pi_2\ne0\); teste \(Z\) bilateral para duas proporções.
+    \item O peso médio ao nascer difere de 3.200 g? \(H_0:\mu=3.200\) g contra \(H_1:\mu\ne3.200\) g; teste \(t\) bilateral de uma amostra. A referência de 3.200 g é próxima da mediana do peso ao nascer nos padrões de crescimento da OMS (cerca de 3,2 kg para meninas e 3,3 kg para meninos).
+    \item O peso médio difere entre mães com sete ou mais consultas pré-natais e as demais? \(H_0:\mu_1-\mu_2=0\) contra \(H_1:\mu_1-\mu_2\ne0\); teste \(t\) bilateral de Welch.
+\end{enumerate}
+
+\subsection{Exploração complementar: idade materna e peso}
+
+Após concluir as análises principais, foi avaliada exploratoriamente a associação entre idade materna e peso ao nascer na amostra. Foram consideradas apenas as 372 observações com ambas as variáveis válidas. Calculou-se a correlação de Pearson e ajustou-se uma regressão linear simples, tratando o peso como resposta e a idade materna como variável explicativa. Como verificação complementar, calculou-se também a correlação de Spearman. Esta análise é exploratória, não foi parte das quatro hipóteses principais e não permite inferência causal.
+
+\section{Resultados}
+
+\subsection{Descrição da população e da amostra}
+
+\begin{table}[htbp]
+\centering
+\caption{Indicadores selecionados na população analítica e na amostra}
+\label{tab:descritivas}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}Xrr}
+\toprule
+\textbf{Indicador} & \textbf{População (\(N=197.639\))} & \textbf{Amostra (\(n=384\))}\\
+\midrule
+Peso médio (g) & 3.188,95 & 3.228,36\\
+Desvio-padrão do peso (g) & 574,10 & 554,51\\
+Cesáreas (\%) & 50,72 & 52,08\\
+Baixo peso (\%) & 9,46 & 8,33\\
+Prematuridade (\%) & 11,56 & 9,64\\
+Idade média materna (anos) & 28,75 & 28,94\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+As médias de peso e idade materna e a proporção amostral de cesáreas ficaram próximas aos parâmetros da população analítica. Diferenças nas proporções menos frequentes e nas caudas das distribuições são esperadas em uma amostra de 384 registros.
+
+O gráfico Q--Q do peso mostra afastamento da reta de referência, especialmente na cauda inferior. Isso evidencia que os pesos individuais não seguem perfeitamente uma distribuição normal. O afastamento é uma característica da distribuição que merece contextualização; isoladamente, não demonstra erro de registro e não justifica excluir ou ajustar observações. Para os testes de médias, a interpretação também considera os tamanhos amostrais, superiores a 30, e a aproximação da distribuição da média amostral pelo Teorema Central do Limite.
+
+\subsection{Testes de hipóteses}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Resultados dos quatro testes na amostra oficial}
+\label{tab:testes}
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}Xrr}
+\toprule
+\textbf{Teste} & \textbf{Estimativa (IC 95\%)} & \textbf{Estatística} & \textbf{valor-\(p\)} & \textbf{Decisão}\\
+\midrule
+H1 & \(P=52{,}08\%\) (47,09\%; 57,08\%) & \(Z=0{,}816\) & 0,2071 & Não rejeitar \(H_0\)\\
+H2 & \(\pi_1-\pi_2=28{,}68\) p.p. (18,57; 38,79) & \(Z=5{,}153\) & \(<0{,}001\) & Rejeitar \(H_0\)\\
+H3 & \(\bar{x}=3.228{,}36\) g (3.172,73; 3.284,00) & \(t_{383}=1{,}002\) & 0,3168 & Não rejeitar \(H_0\)\\
+H4 & \(\bar{x}_1-\bar{x}_2=327{,}27\) g (186,07; 468,47) & \(t_{136{,}96}=4{,}583\) & \(<0{,}001\) & Rejeitar \(H_0\)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Na H1, a amostra não fornece evidência suficiente, ao nível de 5\%, de que a proporção de cesáreas supera 50\%. O parâmetro populacional é 50,72\%; portanto, a hipótese nula é falsa na população, e a decisão amostral corresponde a erro tipo II.
+
+Na H2, as proporções amostrais de cesárea foram 72,17\% no grupo com 12 anos ou mais de escolaridade e 43,49\% no grupo das demais escolaridades. A diferença amostral foi 28,68 pontos percentuais, e o teste rejeita \(H_0\). A diferença populacional é 34,26 pontos percentuais, de modo que a decisão é uma rejeição correta. O resultado descreve associação entre escolaridade e tipo de parto, não efeito causal da escolaridade.
+
+Na H3, o intervalo de confiança inclui 3.200 g e o valor-\(p\) é 0,3168; não se rejeita a hipótese de média igual a 3.200 g. O parâmetro populacional é 3.188,95 g, logo \(H_0\) é falsa para a população analítica e a decisão é classificada como erro tipo II.
+
+Na H4, o peso médio amostral foi 3.311,03 g para mães com sete ou mais consultas e 2.983,76 g para as demais, diferença de 327,27 g. O teste de Welch rejeita \(H_0\); a diferença populacional é 233,10 g, portanto a decisão está correta. A diferença não demonstra que o número de consultas cause maior peso ao nascer, pois outros fatores podem estar associados aos dois fenômenos.
+
+\subsection{Variabilidade entre amostras}
+
+Uma simulação de 1.000 amostras aleatórias simples de tamanho 384 produziu cobertura dos intervalos entre 94,8\% e 95,6\%, próxima do nível nominal de 95\%. As taxas de rejeição simuladas foram 7,3\% para H1, 100\% para H2, 6,8\% para H3 e 88,1\% para H4. Para as hipóteses nulas falsas na população, essas taxas aproximam o poder empírico dos procedimentos sob este cenário; efeitos pequenos foram mais difíceis de detectar.
+
+\subsection{Exploração de correlação e regressão}
+
+Na análise exploratória das 372 observações completas, a correlação de Pearson entre idade materna e peso foi \(r=-0{,}155\), com \(p=0{,}0028\). A regressão linear simples estimou uma variação média de \(-12{,}1\) g no peso por ano adicional de idade materna (IC 95\%: \(-20{,}0\) a \(-4{,}2\) g), mas o coeficiente de determinação foi baixo (\(R^2=0{,}024\)). Assim, a idade, isoladamente, explica apenas uma pequena parcela da variação do peso nesta amostra.
+
+A correlação de postos de Spearman foi menor e não atingiu significância convencional (\(\rho=-0{,}097\), \(p=0{,}063\)). Além disso, as médias por faixa etária não sugerem uma tendência linear uniforme: variam pouco entre as faixas até 34 anos e são menores nas faixas mais altas. Essa diferença entre medidas de associação e o baixo \(R^2\) recomendam cautela: a análise é um complemento exploratório, não uma conclusão principal do trabalho. Não se interpreta o resultado como causalidade.
+
+\section{Estudo complementar: replicação do desenho no SIM}
+
+\subsection{Motivação e desenho}
+
+Após concluir o estudo principal, o mesmo desenho amostral foi replicado em uma segunda base da mesma fonte: o Sistema de Informações sobre Mortalidade (SIM) de Porto Alegre~\cite{simpoa}. A população analítica foi definida como os registros de óbito infantil não fetal de 2011 a 2021, identificados pela diferença de 0 a 11 meses entre o mês/ano do nascimento e o do óbito (\(N=1.776\)). Foram mantidos os mesmos critérios do SINASC: amostragem aleatória simples sem reposição, confiança de 95\%, margem de erro de 5 pontos percentuais e \(p=0{,}5\). O objetivo da replicação foi observar o comportamento do mesmo método em uma população cerca de 111 vezes menor.
+
+\subsection{O que a replicação mostrou}
+
+\textbf{Correção para população finita.} No SINASC, com fração amostral de 0,19\%, a correção é desprezível (\(383{,}4 \Rightarrow 384\)). No SIM, com \(N=1.776\), ela reduz a amostra de 385 para 316, e a fração amostral de 17,8\% exige aplicar a correção também aos erros-padrão dos intervalos e testes.
+
+\textbf{Tamanho da amostra e tamanho da população.} Uma população 111 vezes maior exigiu uma amostra apenas 22\% maior (384 contra 316). Isso ilustra que a precisão de uma estimativa depende sobretudo de \(n\), e não de \(N\): o erro-padrão de uma proporção, \(\sqrt{p(1-p)/n}\), não depende do tamanho da população, exceto pela correção para população finita quando a fração amostral é grande.
+
+\textbf{Poder do teste.} A hipótese principal de proporção do SIM comparou a participação de meninos entre os óbitos infantis com a participação de meninos entre os nascidos vivos do SINASC no mesmo período (51,15\%). Se o sexo não influenciasse o óbito infantil, as duas composições seriam iguais. A amostra estimou 55,06\% de meninos (IC 95\%: 50,09\% a 60,04\%; \(Z=1{,}536\); \(p=0{,}062\)) e não rejeitou \(H_0:\pi\le0{,}5115\). Na população, porém, a proporção é 54,89\%: a hipótese nula é falsa, e a decisão corresponde a um erro tipo II, como ocorreu nas hipóteses H1 e H3 do SINASC.
+
+Uma análise realizada \emph{após} a obtenção dos resultados, com aproximação normal e correção para população finita, estimou o poder desse teste para a diferença real de 3,7 pontos percentuais em diferentes margens de erro de planejamento (Tabela~\ref{tab:poder_sim}).
+
+\begin{table}[htbp]
+\centering
+\caption{Estudo complementar SIM: tamanho amostral e poder estimado do teste de proporção para a diferença populacional observada}
+\label{tab:poder_sim}
+\begin{tabular}{cccc}
+\toprule
+Margem de erro & Amostra (\(n\)) & Fração de \(N\) & Poder estimado\\
+\midrule
+5 p.p. (adotada) & 316 & 18\% & 43\%\\
+4 p.p. & 449 & 25\% & 57\%\\
+3 p.p. & 667 & 38\% & 79\%\\
+2 p.p. & 1.022 & 58\% & 98\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Com a amostra adotada, o teste tinha menos de 50\% de probabilidade de detectar o efeito real; uma margem de 3 pontos percentuais elevaria o poder para cerca de 80\%. A margem de erro não foi alterada após a observação dos resultados, pois redimensionar a amostra em função do desfecho comprometeria a validade da inferência. A lição é de planejamento: a precisão escolhida antes do sorteio define o tamanho de efeito que o estudo é capaz de detectar. O mesmo fenômeno aparece no SINASC, em que a simulação indicou poder empírico de 7,3\% para H1 e 6,8\% para H3, cujos efeitos populacionais são muito pequenos.
+
+\subsection{Limitações específicas do SIM}
+
+A base do SIM informa apenas mês e ano de nascimento e de óbito; a idade ao óbito é, portanto, aproximada, e óbitos com 12 meses de diferença no calendário, mas menos de um ano de vida, ficam fora da população. Registros integralmente repetidos foram mantidos, por não haver identificador confiável para validá-los. A comparação com o SINASC usa apenas contagens agregadas por sexo, sem vinculação individual entre as bases, e descreve a composição dos registros de óbito, não o risco individual de morte por sexo.
+
+\section{Discussão e limitações}
+
+Os quatro testes mostram situações distintas: duas rejeições corretas e dois erros tipo II, apesar de os quatro intervalos de confiança conterem os parâmetros populacionais correspondentes. A simulação ilustra que o desempenho depende da magnitude do efeito e da variabilidade dos dados; ausência de rejeição não prova que a hipótese nula seja verdadeira.
+
+As conclusões se limitam ao recorte de peso igual ou superior a 500 g e ao período de 2011 a 2021 em Porto Alegre. A população apresenta tendências temporais, os dados são administrativos e podem conter informações ausentes ou imprecisões. A amostra de tamanho 384 fornece uma visão do conjunto, mas tem capacidade limitada para eventos raros e efeitos pequenos. As comparações observacionais não controlam fatores de confusão e não estabelecem causalidade. A análise de correlação/regressão foi incluída apenas como exploração adicional e não substitui os objetivos inferenciais definidos para o trabalho.
+
+\section{Conclusão}
+
+Uma amostra aleatória simples de 384 registros permitiu estimar medidas descritivas e realizar testes para duas proporções e duas médias, com resultados comparáveis aos parâmetros da população analítica. A interpretação conjunta dos intervalos, valores-\(p\), decisões e simulação mostrou tanto rejeições corretas quanto erros tipo II. O trabalho também registra explicitamente o efeito do recorte de peso e a não normalidade observada na cauda inferior, sem tratar o gráfico Q--Q como critério isolado de exclusão. A exploração de idade materna e peso encontrou associação linear fraca e pouca capacidade explicativa, reforçando que os resultados devem ser apresentados com cautela e sem afirmações causais. A replicação do desenho no SIM, com população cerca de 111 vezes menor, evidenciou o papel da correção para população finita, a pequena dependência entre o tamanho da amostra e o da população e a relação entre a precisão planejada e o poder dos testes.
+
+\begin{thebibliography}{9}
+
+\bibitem{sinascpoa}
+PREFEITURA MUNICIPAL DE PORTO ALEGRE.
+\textit{SINASC -- Eventos Vitais: Nascimentos}.
+Portal de Dados Abertos. Disponível em:
+\url{https://dadosabertos.poa.br/dataset/sinasc}.
+Acesso em: nov. 2026.
+
+\bibitem{simpoa}
+PREFEITURA MUNICIPAL DE PORTO ALEGRE. Secretaria Municipal de Saúde.
+\textit{Mortalidade e óbitos (SIM)}. Portal de Dados Abertos de Porto Alegre.
+Licença Creative Commons Attribution (CC BY).
+Disponível em: \url{https://dadosabertos.poa.br/dataset/mortalidade-e-obitos}.
+
+\bibitem{agranonik}
+AGRANONIK, Marilyn.
+\textit{Fatores de risco e tendências das taxas de mortalidade infantil e da prevalência de baixo peso ao nascer no RS: uma análise do período 2000--13}.
+Indicadores Econômicos FEE, 2016.
+Disponível em:
+\url{https://revistas.planejamento.rs.gov.br/index.php/indicadores/article/view/3676}.
+Acesso em: nov. 2026.
+
+\bibitem{grassi}
+RIO GRANDE DO SUL. Secretaria Estadual da Saúde. Núcleo de Informações em Saúde.
+\textit{Mortalidade perinatal: Sistema de Informações sobre Mortalidade -- SIM; Sistema de Informações sobre Nascidos Vivos -- SINASC}.
+Coordenador: Paulo Recena Grassi. Porto Alegre, 17 jul. 2009. 39 slides.
+Disponível em:
+\url{http://www1.saude.rs.gov.br/dados/1249057345460Mortalidade_Perinatal_no_RS_grassi.pdf}.
+Acesso em: nov. 2026.
+
+\bibitem{wilke}
+WILKE, Claus O.
+\textit{Fundamentals of Data Visualization: A Primer on Making Informative and Compelling Figures}.
+Sebastopol: O'Reilly Media, 2019. Disponível em:
+\url{https://clauswilke.com/dataviz/}.
+
+\bibitem{slidesufrgs}
+UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL.
+\textit{Slides de Probabilidade e Estatística}.
+Disponível em:
+\url{https://www.ufrgs.br/probabilidade-estatistica/slides/index.html}.
+Acesso em: nov. 2026.
+
+\end{thebibliography}
+
+\end{document}
