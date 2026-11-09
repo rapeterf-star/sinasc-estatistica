@@ -138,8 +138,13 @@ def _condicao_aas(n: int, n_populacao: int) -> Condicao:
     return Condicao(
         "Independência e regra dos 10%",
         fracao < 0.10,
-        f"AAS sem reposição; n/N = {fracao:.3%}, abaixo de 10%.",
+        f"AAS sem reposição; n/N = {_decimal_br(fracao * 100, 3)}%, abaixo de 10%.",
     )
+
+
+def _decimal_br(valor: float, casas: int) -> str:
+    """Número com vírgula decimal e ponto de milhar, como no restante do app."""
+    return f"{valor:,.{casas}f}".replace(",", "_").replace(".", ",").replace("_", ".")
 
 
 def teste_h1(
@@ -431,7 +436,7 @@ def teste_h4(
             "Variâncias iguais",
             True,
             f"Não é exigida: foi usado Welch. Desvios-padrão amostrais: "
-            f"{desvio1:.1f} g e {desvio2:.1f} g.",
+            f"{_decimal_br(desvio1, 1)} g e {_decimal_br(desvio2, 1)} g.",
         ),
     )
     return ResultadoTeste(
