@@ -217,6 +217,14 @@ def _tabela_medidas(
     return pd.DataFrame(linhas, columns=["Medida", "Valor"])
 
 
+def _por_unidade(base: float, unidade: str) -> str:
+    """Rótulo da largura de referência: 'por 100 g', 'por ano', 'por 2 anos'."""
+    dentro = unidade[unidade.rfind("(") + 1 : -1] if unidade.endswith(")") else unidade
+    if dentro.startswith("ano"):
+        return "por ano" if base == 1 else f"por {formatar_numero(base, 0)} anos"
+    return f"por {formatar_numero(base, 0)} {dentro}"
+
+
 def _figura_histograma(
     hist: dict[str, Any],
     titulo: str,
@@ -245,32 +253,49 @@ def _figura_histograma(
             )
         fig.update_layout(barmode="overlay")
     else:
+        # As faixas têm larguras diferentes (faixas raras foram agrupadas por
+        # privacidade). A altura é a frequência por unidade de largura, para que
+        # a ÁREA de cada barra seja proporcional ao número de registros.
+        larguras = np.asarray(hist["larguras"], dtype=float)
+        contagens = np.asarray(hist["contagens"], dtype=float)
+        base = float(larguras.min())
+        alturas = contagens / larguras * base
+        por_unidade = _por_unidade(base, unidade)
         fig.add_bar(
             x=hist["centros"],
-            y=hist["contagens"],
+            y=alturas,
             width=hist["larguras"],
             name="Frequência",
             marker_color=COR_POPULACAO,
             customdata=np.column_stack(
-                [hist["limites_inferiores"], hist["limites_superiores"]]
+                [hist["limites_inferiores"], hist["limites_superiores"], contagens]
             ),
             hovertemplate=(
                 "Faixa: %{customdata[0]:.1f}–%{customdata[1]:.1f}"
-                "<br>Frequência: %{y}<extra></extra>"
+                "<br>Registros na faixa: %{customdata[2]:.0f}<extra></extra>"
             ),
         )
-        for valor, rotulo, cor, estilo in hist["linhas_referencia"]:
+        posicoes = ["top left", "top right"]
+        for indice, (valor, rotulo, cor, estilo) in enumerate(hist["linhas_referencia"]):
             fig.add_vline(
                 x=valor,
                 line_dash=estilo,
                 line_color=cor,
                 annotation_text=f"{rotulo}: {formatar_numero(valor)}",
+                annotation_position=posicoes[indice % 2],
             )
     fig.update_layout(
         title=titulo,
         xaxis_title=unidade,
-        yaxis_title="Densidade" if grupo else "Frequência",
+        yaxis_title="Densidade" if grupo else f"Frequência {por_unidade}",
     )
+    if not grupo and len(set(hist["larguras"])) > 1:
+        st.caption(
+            "As faixas das pontas são mais largas porque faixas com poucos "
+            "registros foram agrupadas; por isso a altura mostra a frequência "
+            f"{por_unidade}, e a área de cada barra é proporcional ao número "
+            "de registros."
+        )
     st.plotly_chart(fig, key=chave)
 
 
