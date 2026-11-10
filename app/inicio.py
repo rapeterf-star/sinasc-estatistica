@@ -25,6 +25,16 @@ with st.container(horizontal=True):
         icon=":material/open_in_new:",
     )
     botao_relatorio()
+    st.link_button(
+        "Vídeo de apresentação (YouTube)",
+        "https://youtu.be/eV0wwY2JIuE",
+        icon=":material/play_circle:",
+    )
+    st.link_button(
+        "Estudo complementar — SIM",
+        "https://sim-poa-estatistica.streamlit.app/",
+        icon=":material/open_in_new:",
+    )
 st.markdown(
     "**Como navegar:** o vídeo resume os principais resultados; o **relatório "
     "completo** traz todas as análises, incluindo a simulação de 1.000 amostras "

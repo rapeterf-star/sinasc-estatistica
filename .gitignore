@@ -6,3 +6,16 @@ data/*.csv
 data/*.parquet
 !data/resumo_publico.json
 data/dd-eventosvitais-nascimentos.pdf
+
+# Material de preparo do vídeo e da entrega (local; o vídeo é publicado no YouTube)
+*.mp4
+*.m4a
+*.zip
+docs/audios_video_v2/
+docs/capturas_video/
+docs/capturas_video_v2/
+docs/Roteiro para o vídeo*.md
+docs/Texto para o Moodle.md
+
+# LaTeX build output
+docs/build/
